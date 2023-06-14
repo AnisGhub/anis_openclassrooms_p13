@@ -14,7 +14,7 @@ function Nav() {
       </NavLink>
 
       <div>
-        <NavLink class="main-nav-item" to="/sign-in">
+        <NavLink className="main-nav-item" to="/login">
           <i>
             <FontAwesomeIcon icon={faCircleUser} />
           </i>
