@@ -1,11 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './user.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { authActions } from '../../store/auth';
 
 export default function User() {
-  const [isEditing, setIsEditing] = useState(false);
+  // use token from store to fetch user data from API and display it here
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const token = useSelector((state) => state.auth.token); // get token from store or localsotrage
+  const firstName = useSelector((state) => state.auth.firstName);
+  const lastName = useSelector((state) => state.auth.lastName);
+
+  const [isEditing, setIsEditing] = useState(false);
   const handleEditClick = () => {
     setIsEditing(true);
+  };
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  };
+  // fetch user data from API and update store
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+        dispatch(authActions.login(data.body));
+      } catch (error) {
+        // redirect to login page if token is invalid or expired (or any other error user not found)
+        // and remove token from store
+        console.error('Error:', error);
+        navigate('/login');
+      }
+    };
+
+    fetchUser();
+  }, [dispatch, navigate, token]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const firstNameValue = e.target.firstNameInput?.value || firstName;
+    const lastNameValue = e.target.lastNameInput?.value || lastName;
+    try {
+      const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      dispatch(authActions.login(data.body));
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -14,17 +85,29 @@ export default function User() {
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {firstName} {lastName}!
         </h1>
         {isEditing ? (
           // edit form
-          <form>
-            <input type="text" placeholder="First Name" required />
-            <input type="text" placeholder="Last Name" required />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              defaultValue={firstName}
+              name="firstNameInput"
+              required
+              disabled={!isEditing}
+            />
+            <input
+              type="text"
+              defaultValue={lastName}
+              name="lastNameInput"
+              required
+              disabled={!isEditing}
+            />
             <button type="submit" className="edit-button">
               Save
             </button>
-            <button type="button" className="edit-button">
+            <button type="button" className="edit-button" onClick={handleCancelClick}>
               Cancel
             </button>
           </form>
