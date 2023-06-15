@@ -22,6 +22,10 @@ export default function User() {
   };
   // fetch user data from API and update store
   useEffect(() => {
+    if (!token) {
+      navigate('/');
+      return;
+    }
     const fetchUser = async () => {
       try {
         const response = await fetch('http://localhost:3001/api/v1/user/profile', {
@@ -45,9 +49,8 @@ export default function User() {
         navigate('/login');
       }
     };
-
     fetchUser();
-  }, []);
+  }, [dispatch, navigate, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
