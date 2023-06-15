@@ -27,6 +27,7 @@ const authSlice = createSlice({
       state.firstName = '';
       state.lastName = '';
       state.email = '';
+      state.token = '';
     },
   },
 });
