@@ -47,7 +47,7 @@ export default function User() {
     };
 
     fetchUser();
-  }, [dispatch, navigate, token]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
