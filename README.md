@@ -6,7 +6,7 @@
 
 ### Description du projet
 
-Ce projet est le n°12 du parcours [**Développeur D'application javascript React**](https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react "Développeur D'application javascript React") qui consiste à créer un système d'authentification ainsi que la conception d'APIs.
+Ce projet est le n°13 du parcours [**Développeur D'application javascript React**](https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react "Développeur D'application javascript React") qui consiste à créer un système d'authentification ainsi que la conception d'APIs.
 
 ### Cahiers des charges
 
