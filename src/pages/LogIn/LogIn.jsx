@@ -8,6 +8,10 @@ export default function LogIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  /**
+   * Handles the user login and save token in state
+   * @param {Event} event - The form submit event.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -31,7 +35,7 @@ export default function LogIn() {
       dispatch(authActions.updateToken(data.body));
       navigate('/user-profile');
     } catch (error) {
-      // gerer erreur serveur ou si ya des erreur dans le mail ou password
+      // Handle server error or invalid email/password error
       console.error('Error:', error);
     }
   };

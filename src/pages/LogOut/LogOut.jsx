@@ -1,11 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
 import { authActions } from '../../store/auth';
 
 function LogOut() {
   const dispatch = useDispatch();
 
+  /**
+   * Handles the user logout.
+   */
   const handleLogout = () => {
     dispatch(authActions.logout());
   };

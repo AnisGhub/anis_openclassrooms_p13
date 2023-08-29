@@ -5,22 +5,32 @@ import { useNavigate } from 'react-router-dom';
 import { authActions } from '../../store/auth';
 
 export default function User() {
-  // use token from store to fetch user data from API and display it here
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const token = useSelector((state) => state.auth.token); // get token from store or localsotrage
+  // get token from store to fetch user profile data
+  const token = useSelector((state) => state.auth.token);
+  // get firstname and lastname from store
   const firstName = useSelector((state) => state.auth.firstName);
   const lastName = useSelector((state) => state.auth.lastName);
 
   const [isEditing, setIsEditing] = useState(false);
+
+  /**
+   * Handles the click event for the "Edit Name" button.
+   */
   const handleEditClick = () => {
     setIsEditing(true);
   };
+
+  /**
+   * Handles the click event for the "Cancel" button.
+   */
   const handleCancelClick = () => {
     setIsEditing(false);
   };
-  // fetch user data from API and update store
+
+  // Fetch user profile from the API with token and update the Redux store
   useEffect(() => {
     if (!token) {
       navigate('/');
@@ -43,8 +53,7 @@ export default function User() {
         }
         dispatch(authActions.login(data.body));
       } catch (error) {
-        // redirect to login page if token is invalid or expired (or any other error user not found)
-        // and remove token from store
+        // Handle errors and redirect to the login page
         console.error('Error:', error);
         navigate('/login');
       }
@@ -52,6 +61,10 @@ export default function User() {
     fetchUser();
   }, [dispatch, navigate, token]);
 
+  /**
+   * Handles the form submission for updating the user profile.
+   * @param {Object} e - The form submission event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const firstNameValue = e.target.firstNameInput?.value || firstName;
@@ -74,7 +87,6 @@ export default function User() {
       if (!response.ok) {
         throw new Error(data.message);
       }
-
       dispatch(authActions.login(data.body));
       setIsEditing(false);
     } catch (error) {
