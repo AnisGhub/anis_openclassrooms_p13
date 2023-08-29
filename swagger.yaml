@@ -110,6 +110,197 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Transactions Current Month API
+      description: API for fetching current month transactions grouped by account
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Current month transactions retrieved successfully
+          schema:
+            $ref: '#/definitions/allTransactionsResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /user/transaction/{idTransaction}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Transaction Details API
+      description: API for fetching details of a transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: path
+          name: idTransaction
+          description: ID of the transaction
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction details retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionInfo'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+
+  /user/transaction/add:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Add Transaction API
+      description: API for adding a new transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Transaction information for adding a new transaction
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInfo'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction added successfully
+          schema:
+            $ref: '#/definitions/TransactionInfo'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /user/transaction/edit/{idTransaction}:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Edit Transaction API
+      description: API for updating transaction information
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: path
+          name: idTransaction
+          description: ID of the transaction to be edited
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: New transaction information for editing
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInfo'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction edited successfully
+          schema:
+            $ref: '#/definitions/TransactionInfo'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+
+  /user/transaction/delete/{idTransaction}:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Delete Transaction API
+      description: API for deleting a transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: path
+          name: idTransaction
+          description: ID of the transaction to be deleted
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: ID of the account
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction deleted successfully
+          schema:
+            $ref: '#/definitions/TransactionInfo'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -164,3 +355,22 @@ definitions:
         type: string
       lastName:
         type: string
+  TransactionInfo:
+    type: object
+    properties:
+      accountId:
+        type: string
+        description: ID of the account for the transaction
+      amount:
+        type: number
+        description: Transaction amount
+      description:
+        type: string
+        description: Transaction description
+      date:
+        type: date
+        description: Transaction date
+  allTransactionsResponse:
+    type: array
+    items:
+      $ref: '#/definitions/TransactionInfo'
