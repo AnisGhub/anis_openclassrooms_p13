@@ -10,17 +10,28 @@
   color: #2c3e50;
 }
 
-.main-nav a.active {
+.main-nav a.router-link-exact-active {
   color: #42b983;
 }
 
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  column-gap: 0.2rem;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.main-nav a:hover {
+.main-nav-item:hover {
   text-decoration: underline;
+}
+
+.main-nav-items {
+  display: flex;
+  flex-direction: row;
 }
 
 .main-nav-logo {

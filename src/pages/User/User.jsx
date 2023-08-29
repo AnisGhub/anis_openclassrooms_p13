@@ -92,27 +92,29 @@ export default function User() {
         </h1>
         {isEditing ? (
           // edit form
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              defaultValue={firstName}
-              name="firstNameInput"
-              required
-              disabled={!isEditing}
-            />
-            <input
-              type="text"
-              defaultValue={lastName}
-              name="lastNameInput"
-              required
-              disabled={!isEditing}
-            />
-            <button type="submit" className="edit-button">
-              Save
-            </button>
-            <button type="button" className="edit-button" onClick={handleCancelClick}>
-              Cancel
-            </button>
+          <form className="edit-inputs-buttons" onSubmit={handleSubmit}>
+            <div className="edit-inputs">
+              <input
+                type="text"
+                defaultValue={firstName}
+                name="firstNameInput"
+                required
+                disabled={!isEditing}
+              />
+              <input
+                type="text"
+                defaultValue={lastName}
+                name="lastNameInput"
+                required
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="edit-buttons">
+              <button type="submit">Save</button>
+              <button type="button" onClick={handleCancelClick}>
+                Cancel
+              </button>
+            </div>
           </form>
         ) : (
           // edit button

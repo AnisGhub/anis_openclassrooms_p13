@@ -1,7 +1,5 @@
 import React from 'react';
 import './login.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { authActions } from '../../store/auth';
@@ -41,9 +39,7 @@ export default function LogIn() {
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
-        <i className="sign-in-icon">
-          <FontAwesomeIcon icon={faCircleUser} />
-        </i>
+        <i className="fa fa-user-circle sign-in-icon" />
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">

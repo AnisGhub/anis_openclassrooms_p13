@@ -1,15 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './nav.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import argentBankLogo from './assets/argentBankLogo.png';
 import LogOut from '../../pages/LogOut/LogOut';
 
 function Nav() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const firstName = useSelector((state) => state.auth.firstName).toUpperCase();
+  const firstName = useSelector((state) => state.auth.firstName);
   return (
     <nav className="main-nav">
       <NavLink className="main-nav-logo" to="/">
@@ -18,20 +16,16 @@ function Nav() {
       </NavLink>
       <div>
         {isAuthenticated ? (
-          <div>
+          <div className="main-nav-items">
             <NavLink className="main-nav-item" to="/user-profile">
-              <i>
-                <FontAwesomeIcon icon={faCircleUser} />
-              </i>
+              <i className="fa fa-user-circle" />
               {firstName}
             </NavLink>
             <LogOut />
           </div>
         ) : (
           <NavLink className="main-nav-item" to="/login">
-            <i>
-              <FontAwesomeIcon icon={faCircleUser} />
-            </i>
+            <i className="fa fa-user-circle" />
             Sign In
           </NavLink>
         )}
