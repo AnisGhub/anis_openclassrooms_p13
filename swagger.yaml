@@ -160,11 +160,6 @@ paths:
           description: ID of the transaction
           required: true
           type: string
-        - in: query
-          name: accountId
-          description: ID of the account
-          required: true
-          type: string
       produces:
         - application/json
       responses:
@@ -281,11 +276,6 @@ paths:
         - in: path
           name: idTransaction
           description: ID of the transaction to be deleted
-          required: true
-          type: string
-        - in: query
-          name: accountId
-          description: ID of the account
           required: true
           type: string
       produces:
